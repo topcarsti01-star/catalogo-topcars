@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Top Cars — Catálogo de Vehículos</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <div class="brand">
+      <span class="brand-mark">TOP</span><span class="brand-mark accent">CARS</span>
+      <span class="brand-tag">Catálogo interno</span>
+    </div>
+    <div class="header-count" id="headerCount">—</div>
+  </header>
+
+  <!-- ================= HERO / BUSCADOR ================= -->
+  <section class="toolbar">
+    <div class="search-wrap">
+      <input type="search" id="searchInput" placeholder="Buscar por marca, modelo, versión…" autocomplete="off" />
+    </div>
+    <div class="filters">
+      <select id="filterMarca"><option value="">Todas las marcas</option></select>
+      <select id="filterCarroceria"><option value="">Todo tipo</option></select>
+      <select id="filterEstado">
+        <option value="activos">Disponibles y reservados</option>
+        <option value="Disponible">Solo disponibles</option>
+        <option value="Reservado">Solo reservados</option>
+        <option value="todos">Incluir vendidos</option>
+      </select>
+      <select id="orderBy">
+        <option value="recientes">Más recientes</option>
+        <option value="precio-asc">Precio: menor a mayor</option>
+        <option value="precio-desc">Precio: mayor a menor</option>
+        <option value="km-asc">Menor kilometraje</option>
+        <option value="anio-desc">Año: más nuevo</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- ================= GRILLA ================= -->
+  <main class="container">
+    <div id="grid" class="grid"></div>
+    <div id="emptyState" class="empty hidden">
+      <p>No hay vehículos que coincidan con tu búsqueda.</p>
+    </div>
+  </main>
+
+  <!-- ================= MODAL FICHA ================= -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" id="modalCard"></div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Top Cars · Haladas S.A. · Emeterio Miranda 189 esq. Guido Spano, Asunción · +595 974 867 100</p>
+    <p class="footer-note">Catálogo de uso interno. No indexado. Los precios no publicados se muestran como "Consultar".</p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

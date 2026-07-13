@@ -1,0 +1,172 @@
+:root {
+  --bg:       #0d0f12;
+  --panel:    #16191e;
+  --panel-2:  #1e232a;
+  --line:     #2b313a;
+  --text:     #f5f7fa;
+  --muted:    #a0a5b0;
+  --muted-2:  #6b7480;
+  --accent:   #e30613;
+  --accent-2: #ff2634;
+  --radio: 14px;
+  --shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --t: 0.22s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Poppins', system-ui, sans-serif;
+  background: radial-gradient(1200px 620px at 50% -12%, #191d24 0%, var(--bg) 62%);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1320px; margin: 0 auto; padding: 0 22px; }
+
+/* Header */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 30px;
+  background: rgba(13, 15, 18, 0.85); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 50;
+}
+.brand { display: flex; align-items: baseline; gap: 3px; }
+.brand-mark {
+  font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 26px;
+  letter-spacing: 3px; text-transform: uppercase;
+}
+.brand-mark.accent { color: var(--accent); }
+.brand-tag {
+  font-size: 11px; color: var(--muted-2); letter-spacing: 2px;
+  text-transform: uppercase; margin-left: 14px; padding-bottom: 3px;
+}
+.header-count {
+  font-family: 'Oswald', sans-serif; font-size: 13px; letter-spacing: 1.5px;
+  color: var(--muted); text-transform: uppercase;
+}
+
+/* Toolbar */
+.toolbar {
+  max-width: 1320px; margin: 28px auto 4px; padding: 0 22px;
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+}
+.search-wrap { flex: 1 1 320px; }
+#searchInput {
+  width: 100%; padding: 13px 16px; font-size: 15px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radio); color: var(--text);
+  font-family: 'Poppins', sans-serif; transition: border-color var(--t), box-shadow var(--t);
+}
+#searchInput:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.16); }
+#searchInput::placeholder { color: var(--muted-2); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 10px; }
+.filters select {
+  padding: 12px 14px; font-size: 14px; cursor: pointer;
+  background: var(--panel); color: var(--muted);
+  border: 1px solid var(--line); border-radius: var(--radio);
+  font-family: 'Poppins', sans-serif; transition: border-color var(--t);
+}
+.filters select:focus { outline: none; border-color: var(--accent); }
+
+/* Grid 1 → 4 columnas */
+.grid {
+  display: grid; gap: 22px; margin: 26px 0 64px;
+  grid-template-columns: repeat(1, 1fr);
+}
+@media (min-width: 560px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px)  { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1200px) { .grid { grid-template-columns: repeat(4, 1fr); } }
+
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radio); overflow: hidden; cursor: pointer;
+  display: flex; flex-direction: column;
+  transition: transform var(--t), border-color var(--t), box-shadow var(--t);
+}
+.card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: var(--shadow); }
+
+.card-media-wrap { position: relative; }
+.card-media { aspect-ratio: 16 / 10; background: var(--panel-2); overflow: hidden; }
+.card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; }
+.card:hover .card-media img { transform: scale(1.06); }
+.card-media.no-img {
+  display: flex; align-items: center; justify-content: center;
+  color: var(--muted-2); font-family: 'Oswald', sans-serif; letter-spacing: 3px; font-size: 14px;
+}
+
+.badge {
+  position: absolute; top: 12px; left: 12px; padding: 5px 12px;
+  font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; border-radius: 6px;
+}
+.badge.disponible { background: var(--accent); color: #fff; }
+.badge.reservado  { background: transparent; color: var(--muted); border: 1px solid var(--muted-2); }
+.badge.vendido    { background: #3a4048; color: #cfd4da; }
+.card.is-sold .card-media img { filter: grayscale(0.9) brightness(0.55); }
+
+.card-body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 9px; flex: 1; }
+.card-title { font-family: 'Oswald', sans-serif; font-size: 19px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+.card-sub { font-size: 13px; color: var(--muted); margin-top: -5px; min-height: 18px; }
+.card-specs { display: flex; flex-wrap: wrap; gap: 7px 14px; font-size: 12.5px; color: var(--muted); }
+.card-price { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); }
+.price-value { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--text); }
+.price-consult { font-family: 'Oswald', sans-serif; font-size: 14px; letter-spacing: 1.5px; color: var(--accent-2); text-transform: uppercase; }
+
+/* Modal */
+.modal { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px; }
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(4px); animation: fadeIn 0.2s ease; }
+.modal-card {
+  position: relative; z-index: 1; width: min(900px, 100%); max-height: 92vh; overflow-y: auto;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radio); box-shadow: var(--shadow);
+  animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+
+.modal-media { display: flex; gap: 4px; overflow-x: auto; scroll-snap-type: x mandatory; background: var(--panel-2); aspect-ratio: 16 / 9; }
+.modal-media img { height: 100%; min-width: 100%; object-fit: cover; scroll-snap-align: start; }
+.modal-close {
+  position: absolute; top: 14px; right: 14px; z-index: 2; width: 38px; height: 38px;
+  border-radius: 50%; border: none; background: rgba(13, 15, 18, 0.85); color: #fff;
+  font-size: 22px; line-height: 1; cursor: pointer; transition: background var(--t);
+}
+.modal-close:hover { background: var(--accent); }
+.modal-content { padding: 24px 28px 28px; }
+.modal-title { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal-sub { color: var(--muted); margin: 2px 0 16px; }
+.modal-price { font-family: 'Oswald', sans-serif; font-size: 30px; font-weight: 700; margin-bottom: 18px; }
+.modal-price.consult { font-size: 20px; color: var(--accent-2); letter-spacing: 1.5px; }
+.modal-desc { color: var(--muted); font-size: 14.5px; line-height: 1.7; margin-bottom: 22px; }
+
+.spec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.spec-item { background: var(--panel-2); border-left: 2px solid var(--accent); border-radius: 6px; padding: 9px 12px; }
+.spec-item .k { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted-2); }
+.spec-item .v { font-size: 15px; color: var(--text); }
+
+.btn-wa {
+  display: inline-flex; align-items: center; gap: 8px; width: 100%; justify-content: center;
+  padding: 14px; background: var(--accent); color: #fff; border: none; border-radius: var(--radio);
+  font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+  text-decoration: none; cursor: pointer; transition: background var(--t);
+}
+.btn-wa:hover { background: var(--accent-2); }
+
+.empty { text-align: center; padding: 80px 20px; color: var(--muted-2); }
+.hidden { display: none !important; }
+
+.site-footer { border-top: 1px solid var(--line); padding: 26px 20px; text-align: center; color: var(--muted-2); font-size: 12.5px; }
+
+@media (max-width: 560px) {
+  .site-header { padding: 14px 18px; }
+  .brand-mark { font-size: 22px; }
+  .brand-tag { display: none; }
+  .filters { width: 100%; }
+  .filters select { flex: 1 1 45%; }
+  .modal-content { padding: 20px; }
+  .modal-title { font-size: 23px; }
+}
