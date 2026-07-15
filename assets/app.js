@@ -2,7 +2,7 @@
 
 /* ---------- 1. Config ---------- */
 const DATA_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_L6f8slq3-5t7KRkYjy5qSwIbrm8kVklFR9os7-FFLFbvnjCg0jNOzsh8t0gWvFiMCISB5dy6s8NG/pub?gid=0&single=true&output=csv";
-const GOOGLE_SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEjzU-m4nZk7ZjvnWBaxG-wZ2AwjqSFCstb561ORAwbxZdYRHX-KJdtgGyg9fs0Mbd/exec";
 
 const TITLE_BASE = "Top Cars — Catálogo";
 const GENERAL  = { nombre: "Top Cars", tel: "595974867100" };
