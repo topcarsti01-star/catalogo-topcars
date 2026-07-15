@@ -4,37 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Top Cars — Catálogo de Vehículos</title>
+  <meta name="description" content="Catálogo de vehículos de alta gama de Top Cars. Unidades seleccionadas, con poco uso y dentro de garantía." />
+  <title>Top Cars — Catálogo</title>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+
+  <!-- Open Graph / vista previa al compartir.
+       ⚠️ Reemplazá TU-DOMINIO por la URL real una vez publicado: las redes exigen URL absoluta. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Top Cars" />
+  <meta property="og:locale" content="es_PY" />
+  <meta property="og:title" content="Top Cars — Catálogo de vehículos de alta gama" />
+  <meta property="og:description" content="Unidades seleccionadas, con poco uso y dentro de garantía. Asesoramiento honesto, no venta agresiva." />
+  <meta property="og:image" content="https://TU-DOMINIO/assets/logo.png" />
+  <meta property="og:url" content="https://TU-DOMINIO/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Top Cars — Catálogo de vehículos de alta gama" />
+  <meta name="twitter:description" content="Unidades seleccionadas, con poco uso y dentro de garantía." />
+  <meta name="twitter:image" content="https://TU-DOMINIO/assets/logo.png" />
+
+  <!-- Rendimiento: adelanta el handshake con los orígenes que sí usamos -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://docs.google.com" />
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/styles.css" />
 </head>
 <body>
+  <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
+  <div class="bg-veil" aria-hidden="true"></div>
+
   <!-- ================= HEADER ================= -->
   <header class="site-header">
-    <div class="brand">
-      <span class="brand-mark">TOP</span><span class="brand-mark accent">CARS</span>
-      <span class="brand-tag">Catálogo interno</span>
-    </div>
+    <a class="brand" id="brandHome" href="#" aria-label="Volver al inicio">
+      <img src="assets/logo.png" alt="TOP CARS" class="brand-logo" width="120" height="38" />
+      <span class="brand-tag">Catálogo</span>
+    </a>
     <div class="header-count" id="headerCount">—</div>
   </header>
 
-  <!-- ================= HERO / BUSCADOR ================= -->
+  <!-- ================= BUSCADOR Y FILTROS ================= -->
   <section class="toolbar">
     <div class="search-wrap">
       <input type="search" id="searchInput" placeholder="Buscar por marca, modelo, versión…" autocomplete="off" />
     </div>
     <div class="filters">
-      <select id="filterMarca"><option value="">Todas las marcas</option></select>
-      <select id="filterCarroceria"><option value="">Todo tipo</option></select>
-      <select id="filterEstado">
+      <select id="filterMarca" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
+      <select id="filterCarroceria" aria-label="Filtrar por tipo"><option value="">Todo tipo</option></select>
+      <select id="filterEstado" aria-label="Filtrar por estado">
         <option value="activos">Disponibles y reservados</option>
         <option value="Disponible">Solo disponibles</option>
         <option value="Reservado">Solo reservados</option>
         <option value="todos">Incluir vendidos</option>
       </select>
-      <select id="orderBy">
+      <select id="orderBy" aria-label="Ordenar">
         <option value="recientes">Más recientes</option>
         <option value="precio-asc">Precio: menor a mayor</option>
         <option value="precio-desc">Precio: mayor a menor</option>
@@ -58,11 +83,88 @@
     <div class="modal-card" id="modalCard"></div>
   </div>
 
+  <!-- ================= PANEL DE MÉTRICAS (interno) ================= -->
+  <div id="stockPanelModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card stock-card" id="stockPanelCard"></div>
+  </div>
+
+  <!-- Comparador -->
+  <div id="compareModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card cmp-card" id="compareCard"></div>
+  </div>
+  <div class="compare-bar" id="compareBar"></div>
+
+  <!-- Modo TV -->
+  <div id="tvLayer" class="tv-layer hidden" aria-hidden="true">
+    <div class="tv-stage" id="tvStage"></div>
+    <button class="tv-btn tv-prev" id="tvPrev" aria-label="Anterior">&lsaquo;</button>
+    <button class="tv-btn tv-next" id="tvNext" aria-label="Siguiente">&rsaquo;</button>
+    <button class="tv-btn tv-exit" id="tvExit" aria-label="Salir del modo TV">&times;</button>
+  </div>
+
+  <!-- Indicador de asesor asignado (?v= / ?vendedor=) -->
+  <div class="asesor-badge" id="asesorBadge" role="status"></div>
+
+  <!-- ================= BOTONES FLOTANTES ================= -->
+  <div class="fabs">
+    <a class="fab fab-wa" id="fabWa" href="https://wa.me/595974867100" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Z"/><path d="M8.5 7.5c-.3 0-.6.1-.8.4-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.15-1.2-.05-.1-.2-.15-.45-.3s-1.5-.7-1.7-.8c-.25-.1-.4-.1-.6.1-.2.3-.65.8-.8.95-.15.15-.3.2-.55.05-.25-.15-1.05-.4-2-1.25-.75-.65-1.25-1.5-1.4-1.75-.15-.25 0-.4.1-.5.1-.1.25-.3.35-.45.1-.15.15-.25.25-.45.1-.2.05-.35 0-.5s-.6-1.45-.8-2c-.2-.5-.4-.45-.55-.45Z"/></svg>
+    </a>
+    <button class="fab fab-top" id="toTop" aria-label="Ir arriba">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
   <footer class="site-footer">
-    <p>Top Cars · Haladas S.A. · Emeterio Miranda 189 esq. Guido Spano, Asunción · +595 974 867 100</p>
-    <p class="footer-note">Catálogo de uso interno. No indexado. Los precios no publicados se muestran como "Consultar".</p>
+    <div class="footer-actions">
+      <a class="footer-btn" href="https://topcars.com.py" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9S14.5 18.3 12 21c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3Z"/></svg>
+        Web
+      </a>
+      <a class="footer-btn" href="https://instagram.com/topcars_py" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a class="footer-btn wa" href="https://wa.me/595974867100" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5.1-1.3A10 10 0 1 0 12 2Z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+
+    <div class="footer-sellers">
+      <h4>Nuestros asesores</h4>
+      <div class="sellers-grid">
+        <div class="seller"><span class="seller-name">Federico Ojeda</span><a href="https://wa.me/595981981151" target="_blank" rel="noopener">+595 981 981 151</a></div>
+        <div class="seller"><span class="seller-name">Esteban Parceriza</span><a href="https://wa.me/595981484985" target="_blank" rel="noopener">+595 981 484 985</a></div>
+        <div class="seller"><span class="seller-name">Fredy Benítez</span><a href="https://wa.me/595971237864" target="_blank" rel="noopener">+595 971 237 864</a></div>
+      </div>
+    </div>
+
+    <div class="footer-tools">
+      <button class="footer-gear" id="btnStock" type="button" aria-label="Panel interno de stock" title="Panel interno">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
+      </button>
+      <button class="footer-gear" id="btnTv" type="button" aria-label="Modo TV showroom" title="Modo TV">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+      </button>
+    </div>
+
+    <p class="footer-legal">
+      Top Cars · Haladas S.A. · Emeterio Miranda 189 esq. Guido Spano, Asunción<br />
+      Los precios no publicados se muestran como "Consultar".
+    </p>
   </footer>
 
+  <!-- Aviso sutil (copiado al portapapeles, etc.) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Área de impresión (ficha PDF / QR) — solo visible al imprimir -->
+  <div class="print-area" id="printArea"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
   <script src="assets/app.js"></script>
 </body>
 </html>
