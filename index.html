@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Catálogo de vehículos de alta gama en Asunción, Paraguay. Audi, BMW, Porsche, Toyota y más: unidades seleccionadas, con poco uso y dentro de garantía." />
+  <title>Top Cars — Catálogo</title>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+
+  <!-- Open Graph / vista previa al compartir.
+       ⚠️ Reemplazá TU-DOMINIO por la URL real una vez publicado: las redes exigen URL absoluta. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Top Cars" />
+  <meta property="og:locale" content="es_PY" />
+  <meta property="og:title" content="Top Cars — Catálogo de vehículos de alta gama" />
+  <meta property="og:description" content="Unidades seleccionadas, con poco uso y dentro de garantía. Asesoramiento honesto, no venta agresiva." />
+  <meta property="og:image" content="https://TU-DOMINIO/assets/logo.png" />
+  <meta property="og:url" content="https://TU-DOMINIO/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Top Cars — Catálogo de vehículos de alta gama" />
+  <meta name="twitter:description" content="Unidades seleccionadas, con poco uso y dentro de garantía." />
+  <meta name="twitter:image" content="https://TU-DOMINIO/assets/logo.png" />
+
+  <!-- Rendimiento: adelanta el handshake con los orígenes que sí usamos -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://docs.google.com" />
+  <link rel="preconnect" href="https://lh3.googleusercontent.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+
+  <!-- SEO local: ficha del negocio para Google (Asunción, Paraguay) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    "name": "Top Cars",
+    "legalName": "Haladas S.A.",
+    "description": "Concesionaria premium de vehículos de alta gama en Asunción. Unidades seleccionadas, con poco uso y dentro de garantía.",
+    "url": "https://TU-DOMINIO/",
+    "logo": "https://TU-DOMINIO/assets/logo.png",
+    "image": "https://TU-DOMINIO/assets/logo.png",
+    "telephone": "+595974867100",
+    "priceRange": "$$$",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Emeterio Miranda 189 esq. Guido Spano",
+      "addressLocality": "Asunción",
+      "addressCountry": "PY"
+    },
+    "sameAs": ["https://topcars.com.py", "https://instagram.com/topcars_py"]
+  }
+  </script>
+</head>
+<body>
+  <div class="bg-layer" id="bgLayer" aria-hidden="true"></div>
+  <div class="bg-veil" aria-hidden="true"></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="site-header">
+    <a class="brand" id="brandHome" href="#" aria-label="Volver al inicio">
+      <img src="assets/logo.png" alt="TOP CARS" class="brand-logo" width="120" height="38" />
+      <span class="brand-tag">Catálogo</span>
+    </a>
+    <div class="header-count" id="headerCount">—</div>
+  </header>
+
+  <!-- ================= BUSCADOR Y FILTROS ================= -->
+  <section class="toolbar">
+    <div class="search-wrap">
+      <input type="search" id="searchInput" placeholder="Buscar por marca, modelo, versión…" autocomplete="off" />
+    </div>
+    <div class="filters">
+      <select id="filterMarca" aria-label="Filtrar por marca"><option value="">Todas las marcas</option></select>
+      <select id="filterCarroceria" aria-label="Filtrar por tipo"><option value="">Todo tipo</option></select>
+      <select id="filterEstado" aria-label="Filtrar por estado">
+        <option value="activos">Disponibles y reservados</option>
+        <option value="Disponible">Solo disponibles</option>
+        <option value="Reservado">Solo reservados</option>
+        <option value="todos">Incluir vendidos</option>
+      </select>
+      <select id="orderBy" aria-label="Ordenar">
+        <option value="recientes">Más recientes</option>
+        <option value="precio-asc">Precio: menor a mayor</option>
+        <option value="precio-desc">Precio: mayor a menor</option>
+        <option value="km-asc">Menor kilometraje</option>
+        <option value="anio-desc">Año: más nuevo</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- ================= GRILLA ================= -->
+  <main class="container">
+    <div id="grid" class="grid"></div>
+    <div id="emptyState" class="empty hidden">
+      <p>No hay vehículos que coincidan con tu búsqueda.</p>
+    </div>
+  </main>
+
+  <!-- ================= MODAL FICHA ================= -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" id="modalCard"></div>
+  </div>
+
+  <!-- ================= PANEL DE MÉTRICAS (interno) ================= -->
+  <div id="stockPanelModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card stock-card" id="stockPanelCard"></div>
+  </div>
+
+  <!-- Lightbox de la galería -->
+  <div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Foto a pantalla completa">
+    <button class="lb-btn lb-close" data-lb="close" aria-label="Cerrar">&times;</button>
+    <button class="lb-btn lb-prev" data-lb="-1" aria-label="Anterior">&lsaquo;</button>
+    <img class="lb-img" id="lbImg" alt="" referrerpolicy="no-referrer">
+    <button class="lb-btn lb-next" data-lb="1" aria-label="Siguiente">&rsaquo;</button>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+
+  <!-- Comparador -->
+  <div id="compareModal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card cmp-card" id="compareCard"></div>
+  </div>
+  <div class="compare-bar" id="compareBar"></div>
+
+  <!-- Modo TV -->
+  <div id="tvLayer" class="tv-layer hidden" aria-hidden="true">
+    <div class="tv-stage" id="tvStage"></div>
+    <button class="tv-btn tv-prev" id="tvPrev" aria-label="Anterior">&lsaquo;</button>
+    <button class="tv-btn tv-next" id="tvNext" aria-label="Siguiente">&rsaquo;</button>
+    <button class="tv-btn tv-exit" id="tvExit" aria-label="Salir del modo TV">&times;</button>
+  </div>
+
+  <!-- Indicador de asesor asignado (?v= / ?vendedor=) -->
+  <div class="asesor-badge" id="asesorBadge" role="status"></div>
+
+  <!-- ================= BOTONES FLOTANTES ================= -->
+  <div class="fabs">
+    <a class="fab fab-wa" id="fabWa" href="https://wa.me/595974867100" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.82 9.82 0 016.99 2.9 9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 00-3.48-8.41z"/></svg>
+    </a>
+    <button class="fab fab-top" id="toTop" aria-label="Ir arriba">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="site-footer">
+    <div class="footer-actions">
+      <a class="footer-btn" href="https://topcars.com.py" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.7 5.7 3.7 9S14.5 18.3 12 21c-2.5-2.7-3.7-5.7-3.7-9S9.5 5.7 12 3Z"/></svg>
+        Web
+      </a>
+      <a class="footer-btn" href="https://instagram.com/topcars_py" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1.2" fill="currentColor" stroke="none"/></svg>
+        Instagram
+      </a>
+      <a class="footer-btn wa" href="https://wa.me/595974867100" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.82 9.82 0 016.99 2.9 9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 00-3.48-8.41z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+
+    <div class="footer-sellers">
+      <h4>Nuestros asesores</h4>
+      <div class="sellers-grid">
+        <div class="seller">
+          <span class="seller-ini">FO</span>
+          <span class="seller-name">Federico Ojeda</span>
+          <a href="https://wa.me/595981981151" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.82 9.82 0 016.99 2.9 9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 00-3.48-8.41z"/></svg>
+            +595 981 981 151</a>
+        </div>
+        <div class="seller">
+          <span class="seller-ini">EP</span>
+          <span class="seller-name">Esteban Parceriza</span>
+          <a href="https://wa.me/595981484985" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.82 9.82 0 016.99 2.9 9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 00-3.48-8.41z"/></svg>
+            +595 981 484 985</a>
+        </div>
+        <div class="seller">
+          <span class="seller-ini">FB</span>
+          <span class="seller-name">Fredy Benítez</span>
+          <a href="https://wa.me/595971237864" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.88 1.21 3.07.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.69.25-1.29.17-1.41-.07-.12-.27-.2-.57-.35M12.05 21.8h-.01a9.87 9.87 0 01-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 01-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88a9.82 9.82 0 016.99 2.9 9.83 9.83 0 012.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0012.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 005.69 1.45c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 00-3.48-8.41z"/></svg>
+            +595 971 237 864</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-tools">
+      <button class="footer-gear" id="btnStock" type="button" aria-label="Panel interno de stock" title="Panel interno">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z"/></svg>
+      </button>
+      <button class="footer-gear" id="btnTv" type="button" aria-label="Modo TV showroom" title="Modo TV">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
+      </button>
+    </div>
+
+    <p class="footer-legal">
+      Top Cars · Haladas S.A. · Emeterio Miranda 189 esq. Guido Spano, Asunción<br />
+      Los precios no publicados se muestran como "Consultar".
+    </p>
+  </footer>
+
+  <!-- Aviso sutil (copiado al portapapeles, etc.) -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Área de impresión (ficha PDF / QR) — solo visible al imprimir -->
+  <div class="print-area" id="printArea"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
